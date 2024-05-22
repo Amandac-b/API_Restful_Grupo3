@@ -1,6 +1,6 @@
 package org.serratec.backend.redesocial.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -38,7 +38,7 @@ public class User {
 	private String senha;
 	
 	@Column
-	private Date dataNascimento;
+	private LocalDate dataNascimento;
 	
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable (name = "user_relatioship",
@@ -87,11 +87,11 @@ public class User {
 		this.senha = senha;
 	}
 
-	public Date getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 	
