@@ -1,4 +1,4 @@
-package org.serratec.backend.redesocial.RedeSocial;
+package org.serratec.backend.redesocial;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
