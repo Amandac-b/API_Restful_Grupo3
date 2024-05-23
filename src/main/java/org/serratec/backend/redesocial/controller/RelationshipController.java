@@ -24,49 +24,51 @@ import jakarta.validation.Valid;
 @RequestMapping("/relationships")
 public class RelationshipController {
 
-    @Autowired
-    private RelationshipRepository relationshipRepository;
+	@Autowired
+	private RelationshipRepository relationshipRepository;
 
-    // Listar
-    @GetMapping
-    public ResponseEntity<List<Relationship>> listar() {
-        List<Relationship> relationships = relationshipRepository.findAll();
-        return ResponseEntity.ok(relationships);
-    }
+	// Listar
+	@GetMapping
+	public ResponseEntity<List<Relationship>> listar() {
+		List<Relationship> relationships = relationshipRepository.findAll();
+		return ResponseEntity.ok(relationships);
+	}
 
-    // Buscar por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Relationship> buscar(@PathVariable Long id) {
-        Optional<Relationship> relationshipOpt = relationshipRepository.findById(id);
-        return relationshipOpt.map(ResponseEntity::ok)
-                              .orElseGet(() -> ResponseEntity.notFound().build());
-    }
+	// Buscar por ID
+	@GetMapping("/{id}")
+	public ResponseEntity<Relationship> buscar(@PathVariable Long id) {
+		Optional<Relationship> relationshipOpt = relationshipRepository.findById(id);
+		return relationshipOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+	}
 
-    // Inserir
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Relationship inserir(@Valid @RequestBody Relationship relationship) {
-        return relationshipRepository.save(relationship);
-    }
+	// Inserir
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public Relationship inserir(@Valid @RequestBody Relationship relationship) {
+		return relationshipRepository.save(relationship);
+	}
 
-    // Atualizar
-    @PutMapping("/{id}")
-    public ResponseEntity<Relationship> alterar(@PathVariable Long id, @Valid @RequestBody Relationship relationship) {
-        if (!relationshipRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        relationship.setId(id);
-        Relationship updatedRelationship = relationshipRepository.save(relationship);
-        return ResponseEntity.ok(updatedRelationship);
-    }
+	// Atualizar
+	@PutMapping("/{id}")
+	public ResponseEntity<Relationship> alterar(@PathVariable Long id, @Valid @RequestBody Relationship relationship) {
+		if (!relationshipRepository.existsById(id)) {
+			return ResponseEntity.notFound().build();
+		}
+		relationship.setId(id);
+		Relationship updatedRelationship = relationshipRepository.save(relationship);
+		return ResponseEntity.ok(updatedRelationship);
+	}
 
-    // Deletar
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        if (!relationshipRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        relationshipRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
+	// Deletar
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deletar(@PathVariable Long id) {
+		if (!relationshipRepository.existsById(id)) {
+			return ResponseEntity.notFound().build();
+		}
+		relationshipRepository.deleteById(id);
+		return ResponseEntity.noContent().build();
+	}
+
+	
+	
 }
