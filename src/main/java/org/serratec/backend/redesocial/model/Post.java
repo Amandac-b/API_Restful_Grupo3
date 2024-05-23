@@ -1,13 +1,11 @@
 package org.serratec.backend.redesocial.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
 public class Post {
@@ -15,13 +13,14 @@ public class Post {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String conteudo;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCriacao;
+	private LocalDate dataCriacao;
 
 	public Post() {
 	}
 
-	public Post(String conteudo, Date dataCriacao) {
+	public Post(Long id, String conteudo, LocalDate dataCriacao) {
+		super();
+		this.id = id;
 		this.conteudo = conteudo;
 		this.dataCriacao = dataCriacao;
 	}
@@ -42,11 +41,16 @@ public class Post {
 		this.conteudo = conteudo;
 	}
 
-	public Date getDataCriacao() {
+	public LocalDate getDataCriacao() {
 		return dataCriacao;
 	}
 
-	public void setDataCriacao(Date date) {
-
+	public void setDataCriacao(LocalDate dataCriacao) {
+		this.dataCriacao = dataCriacao;
 	}
+	
+
+	
 }
+
+	

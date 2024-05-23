@@ -1,6 +1,6 @@
 package org.serratec.backend.redesocial.service;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +31,7 @@ public class PostService {
         Post post = new Post();
         post.setConteudo(postDTO.getConteudo());
         try {
-            post.setDataCriacao(new Date(0));
+            post.setDataCriacao(LocalDate.now());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error setting dataCriacao", e);

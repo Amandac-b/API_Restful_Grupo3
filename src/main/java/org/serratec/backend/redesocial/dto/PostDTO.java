@@ -1,16 +1,16 @@
 package org.serratec.backend.redesocial.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class PostDTO {
 	private Long id;
 	private String conteudo;
-	private Date dataCriacao;
+	private LocalDate dataCriacao;
 
 	public PostDTO() {
 	}
 
-	public PostDTO(Long id, String conteudo, Date dataCriacao) {
+	public PostDTO(Long id, String conteudo, LocalDate dataCriacao) {
 		this.id = id;
 		this.conteudo = conteudo;
 		this.dataCriacao = dataCriacao;
@@ -33,11 +33,11 @@ public class PostDTO {
 		this.conteudo = conteudo;
 	}
 
-	public Date getDataCriacao() {
+	public LocalDate getDataCriacao() {
 		return dataCriacao;
 	}
 
-	public void setDataCriacao(Date dataCriacao) {
+	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
 }
