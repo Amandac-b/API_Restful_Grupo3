@@ -2,6 +2,7 @@ package org.serratec.backend.redesocial.model;
 
 import java.time.LocalDate;
 
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,11 +12,15 @@ import jakarta.persistence.Id;
 public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String conteudo;
-	private LocalDate dataCriacao;
-
-	public Post() {
+	
+	@ApiModelProperty(notes = "ID do post")
+    private Long id;
+    @ApiModelProperty(notes = "Conteúdo do post")
+    private String conteudo;
+    @ApiModelProperty(notes = "Data de criação do post")
+    private LocalDate dataCriacao;
+	
+    public Post() {
 	}
 
 	public Post(Long id, String conteudo, LocalDate dataCriacao) {

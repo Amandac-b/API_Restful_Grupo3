@@ -1,19 +1,14 @@
 package org.serratec.backend.redesocial.model;
 
 import java.time.LocalDate;
-import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-
 
 @Entity
 @Table(name = "usuario")
@@ -25,28 +20,23 @@ public class User {
 	@Column(name = "id_user")
 	private Long id;
 
-	@Column
+	@ApiModelProperty (notes = "Nome do Usuário")
 	private String nome;
-	
-	@Column
-	private String sobrenome;
-	
-	@Column
+	@ApiModelProperty (notes = "Sobrenome do Usuário")
+	private String sobrenome; 
+	@ApiModelProperty (notes = "Email do Usuário")
 	private String email;
-	
-	@Column
+	@ApiModelProperty (notes = "Senha do Usuário")
 	private String senha;
-	
-	@Column
+	@ApiModelProperty (notes = "Data de Nascimento do Usuário")
 	private LocalDate dataNascimento;
-	
+
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable (name = "user_relatioship",
 //	joinColumns = @JoinColumn(name = "id_user"),
 //	inverseJoinColumns = @JoinColumn (name = "id_relationship"))
 //	private List<Relationship> relationship;
-	
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -94,6 +84,5 @@ public class User {
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	
-	
+
 }
