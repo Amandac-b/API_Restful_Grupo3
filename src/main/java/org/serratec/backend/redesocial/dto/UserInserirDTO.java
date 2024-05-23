@@ -3,6 +3,8 @@ package org.serratec.backend.redesocial.dto;
 public class UserInserirDTO {
 
 	private String nome;
+	
+	private String sobrenome;
 
 	private String email;
 
@@ -41,6 +43,16 @@ public class UserInserirDTO {
 	public void setConfirmaSenha(String confirmaSenha) {
 		this.confirmaSenha = confirmaSenha;
 	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
+	}
+	
+	
 	
 	
 }
