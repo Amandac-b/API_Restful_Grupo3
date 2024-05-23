@@ -7,21 +7,9 @@ public class UserDTO {
 		private Long id;
 		private String nome;
 		private String sobrenome;
-		private String email;
-		private String senha;
 		private LocalDate dataNascimento;
 		
 		public UserDTO() {
-		}
-
-		public UserDTO(Long id, String nome, String sobrenome, String email, String senha, LocalDate dataNascimento) {
-			super();
-			this.id = id;
-			this.nome = nome;
-			this.sobrenome = sobrenome;
-			this.email = email;
-			this.senha = senha;
-			this.dataNascimento = dataNascimento;
 		}
 
 		public Long getId() {
@@ -48,22 +36,6 @@ public class UserDTO {
 			this.sobrenome = sobrenome;
 		}
 
-		public String getEmail() {
-			return email;
-		}
-
-		public void setEmail(String email) {
-			this.email = email;
-		}
-
-		public String getSenha() {
-			return senha;
-		}
-
-		public void setSenha(String senha) {
-			this.senha = senha;
-		}
-
 		public LocalDate getDataNascimento() {
 			return dataNascimento;
 		}
@@ -71,8 +43,6 @@ public class UserDTO {
 		public void setDataNascimento(LocalDate dataNascimento) {
 			this.dataNascimento = dataNascimento;
 		}
-		
-		
 		
 		
 }
