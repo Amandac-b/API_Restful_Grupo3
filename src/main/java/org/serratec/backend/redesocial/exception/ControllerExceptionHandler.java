@@ -19,5 +19,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.notFound().build(); 
 	}
 	
-	
+	@ExceptionHandler(SenhaException.class)
+	protected ResponseEntity<Object> handleSenhaException(SenhaException ex){
+		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+}
 }
