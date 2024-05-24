@@ -2,6 +2,8 @@ package org.serratec.backend.redesocial.dto;
 
 import java.time.LocalDate;
 
+import org.serratec.backend.redesocial.model.User;
+
 public class UserDTO {
 
 		private Long id;
@@ -10,6 +12,21 @@ public class UserDTO {
 		private LocalDate dataNascimento;
 		
 		public UserDTO() {
+		}
+
+		public UserDTO(Long id, String nome, String sobrenome, LocalDate dataNascimento) {
+			super();
+			this.id = id;
+			this.nome = nome;
+			this.sobrenome = sobrenome;
+			this.dataNascimento = dataNascimento;
+		}
+		
+		public UserDTO(User user) {
+			this.id = user.getId();
+			this.nome = user.getNome();
+			this.sobrenome = user.getSobrenome();
+			this.dataNascimento = user.getDataNascimento();
 		}
 
 		public Long getId() {

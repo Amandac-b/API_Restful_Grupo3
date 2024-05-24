@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import org.serratec.backend.redesocial.dto.UserDTO;
+import org.serratec.backend.redesocial.dto.UserInserirDTO;
 import org.serratec.backend.redesocial.model.User;
 import org.serratec.backend.redesocial.repository.UserRepository;
 import org.serratec.backend.redesocial.service.UserService;
@@ -32,7 +34,7 @@ public class UserController {
 	
 
 	@GetMapping
-	public ResponseEntity<List<User>> listar() {
+	public ResponseEntity<List<UserDTO>> listar() {
 		return ResponseEntity.ok(userService.findAll());
 	}
 
@@ -43,15 +45,14 @@ public class UserController {
 	}
 
 	@PostMapping
-	public ResponseEntity<User> inserir(@RequestBody User user){
-		user = userService.inserir(user);
-		
+	public ResponseEntity<UserDTO> inserir(@RequestBody UserInserirDTO userInserirDTO){
+		UserDTO userDTO = userService.inserir(userInserirDTO);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
-				.buildAndExpand(user.getId())
+				.buildAndExpand(userDTO.getId())
 				.toUri();
-			return ResponseEntity.created(uri).body(user);
+			return ResponseEntity.created(uri).body(userDTO);
 	}
 
 	/*@PutMapping("/{id}")
