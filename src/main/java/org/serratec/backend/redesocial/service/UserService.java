@@ -39,19 +39,19 @@ public class UserService {
 		return userOpt.get();
 	}
 
-	public UserDTO inserir(UserInserirDTO u) throws EmailException, SenhaException {
-		if(!u.getSenha().equalsIgnoreCase(u.getConfirmaSenha())) {
+	public UserDTO inserir(UserInserirDTO usuarioInserirDTO) throws EmailException, SenhaException {
+		if(!usuarioInserirDTO.getSenha().equalsIgnoreCase(usuarioInserirDTO.getConfirmaSenha())) {
 			throw new SenhaException("Senha e Confirma Senha não são iguais");
 		}
-		User userDB = userRepository.findByEmail(u.getEmail());
+		User userDB = userRepository.findByEmail(usuarioInserirDTO.getEmail());
 		if (userDB != null) {
 			throw new EmailException("Email já existente");
 		}
 		
 		User user = new User();
-		user.setNome(u.getNome());
-		user.setEmail(u.getEmail());
-		user.setSenha(u.getSenha());
+		user.setNome(usuarioInserirDTO.getNome());
+		user.setEmail(usuarioInserirDTO.getEmail());
+		user.setSenha(usuarioInserirDTO.getSenha());
 		user = userRepository.save(user);
 		
 		return new UserDTO(user); 
