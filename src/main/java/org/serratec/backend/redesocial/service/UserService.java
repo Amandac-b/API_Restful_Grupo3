@@ -14,23 +14,27 @@ import org.serratec.backend.redesocial.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
 
+	// buscar todos
 	public List<UserDTO> findAll() {
 		List<User> users = userRepository.findAll();
-		
+
 		List<UserDTO> userDTO = new ArrayList<>();
-		for (User user: users) {
-			userDTO.add(new UserDTO(user)); 
+		for (User user : users) {
+			userDTO.add(new UserDTO(user));
 		}
-		
+
 		return userDTO;
 	}
 
+	// buscar um
 	public User findById(Long id) throws NotFoundException {
 		Optional<User> userOpt = userRepository.findById(id);
 		if (userOpt.isEmpty()) {
@@ -39,22 +43,33 @@ public class UserService {
 		return userOpt.get();
 	}
 
-	public UserDTO inserir(UserInserirDTO usuarioInserirDTO) throws EmailException, SenhaException {
-		if(!usuarioInserirDTO.getSenha().equalsIgnoreCase(usuarioInserirDTO.getConfirmaSenha())) {
+	// inserir
+	@Transactional
+	public UserDTO inserir(UserInserirDTO userInserirDTO) throws EmailException, SenhaException {
+		if (!userInserirDTO.getSenha().equalsIgnoreCase(userInserirDTO.getConfirmaSenha())) {
 			throw new SenhaException("Senha e Confirma Senha não são iguais");
 		}
-		User userDB = userRepository.findByEmail(usuarioInserirDTO.getEmail());
-		if (userDB != null) {
-			throw new EmailException("Email já existente");
+		User userBd = userRepository.findByEmail(userInserirDTO.getEmail());
+		if (userBd != null) {
+			throw new EmailException("Email ja existente");
 		}
-		
-		User user = new User();
-		user.setNome(usuarioInserirDTO.getNome());
-		user.setEmail(usuarioInserirDTO.getEmail());
-		user.setSenha(usuarioInserirDTO.getSenha());
-		user = userRepository.save(user);
-		
-		return new UserDTO(user); 
+
+		return new UserDTO(userRepository.save(new User(userInserirDTO)));
 	}
 
+	// deletar
+	public void delete(Long id) {
+		userRepository.deleteById(id);
+	}
+
+	// atualizar
+	public User save(Long Id, UserInserirDTO novoUserDTO) {
+		Optional<User> userOpt = userRepository.findById(Id);
+		if (userOpt.isPresent ()) {
+			User novoUser = new User(novoUserDTO);
+			novoUser.setId(Id);
+			return userRepository.save(novoUser);
+		}
+			throw new NotFoundException();
+	}
 }

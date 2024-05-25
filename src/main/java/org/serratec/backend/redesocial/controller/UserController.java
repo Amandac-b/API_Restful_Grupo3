@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,21 +39,19 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<UserDTO> inserir(@RequestBody UserInserirDTO userInserirDTO) {
 		UserDTO userDTO = userService.inserir(userInserirDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userDTO.getId())
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(userDTO.getId())
 				.toUri();
 		return ResponseEntity.created(uri).body(userDTO);
 	}
-
-	/*
-	 * @PutMapping("/{id}") public ResponseEntity<User> atualizar(@PathVariable Long
-	 * id, @Valid @RequestBody User user) { if (!userRepository.existsById(id)) {
-	 * return ResponseEntity.notFound().build(); } user.setId(id); user =
-	 * userRepository.save(user); return ResponseEntity.ok(user); }
-	 * 
-	 * @DeleteMapping("/{id}") public ResponseEntity<Void> remover(@PathVariable
-	 * Long id) { if (!userRepository.existsById(id)) { return
-	 * ResponseEntity.notFound().build(); } userRepository.deleteById(id); return
-	 * ResponseEntity.noContent().build(); }
-	 */
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<String> alterar(@PathVariable Long id, @RequestBody User userInserirDTO) {
+		return ResponseEntity.ok("teste legal");
+//		return ResponseEntity.ok(userService.save(id, user));
+		
+	}
 
 }

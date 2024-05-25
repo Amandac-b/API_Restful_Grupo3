@@ -10,6 +10,8 @@ import org.serratec.backend.redesocial.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.validation.Valid;
+
 @Service
 public class PostService {
     @Autowired
@@ -43,6 +45,14 @@ public class PostService {
     public void delete(Long id) {
         postRepository.deleteById(id);
     }
+    
+    public Post save(@Valid Post post) {
+	    return postRepository.save(post);
+	   }
+	public boolean existsById(Long id) {
+	return postRepository.existsById(id);
+}
+    
 }
 
     

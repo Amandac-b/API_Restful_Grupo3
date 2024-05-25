@@ -1,5 +1,7 @@
 package org.serratec.backend.redesocial.dto;
 
+import java.time.LocalDate;
+
 public class UserInserirDTO {
 
 	private String nome;
@@ -11,6 +13,8 @@ public class UserInserirDTO {
 	private String senha;
 
 	private String confirmaSenha;
+	
+	private LocalDate dataNascimento;
 
 	public String getNome() {
 		return nome;
@@ -51,8 +55,13 @@ public class UserInserirDTO {
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
 	}
-	
-	
-	
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
 	
 }
