@@ -31,16 +31,16 @@ public class RelationshipController {
 //		return relationshipService.save(relationship);
 //	}
 //
-////	// Atualizar
-////	@PutMapping("/{id}")
-////	public ResponseEntity<Relationship> alterar(@PathVariable Long id, @Valid @RequestBody Relationship relationship) {
-////		if (!relationshipService.existsById(id)) {
-////			return ResponseEntity.notFound().build();
-////		}
-////		relationship.setId(id);
-////		Relationship updatedRelationship = relationshipService.save(relationship);
-////		return ResponseEntity.ok(updatedRelationship);
-////	}
+//	// Atualizar
+//	@PutMapping("/{id}")
+//	public ResponseEntity<Relationship> alterar(@PathVariable Long id, @Valid @RequestBody Relationship relationship) {
+//		if (!relationshipService.existsById(id)) {
+//			return ResponseEntity.notFound().build();
+//		}
+//		relationship.setId(id);
+//		Relationship updatedRelationship = relationshipService.save(relationship);
+//		return ResponseEntity.ok(updatedRelationship);
+//	}
 //
 //	// Deletar
 //	@DeleteMapping("/{id}")

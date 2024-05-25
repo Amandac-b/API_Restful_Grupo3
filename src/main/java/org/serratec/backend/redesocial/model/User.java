@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.serratec.backend.redesocial.dto.UserInserirDTO;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -30,20 +33,41 @@ public class User {
 	private String sobrenome;
 	private String email;
 	private String senha;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate dataNascimento;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "relationshipPK.follower", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Relationship> seguidores = new ArrayList<>();
 	@JsonIgnore
 	@OneToMany(mappedBy = "relationshipPK.followed", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Relationship> seguidos = new ArrayList<>();
+	
+	
+	public User(UserInserirDTO userInserirDTO) {
+		super();
+		this.nome = userInserirDTO.getNome();
+		this.sobrenome = userInserirDTO.getSobrenome();
+		this.email = userInserirDTO.getEmail();
+		this.dataNascimento = userInserirDTO.getDataNascimento();
+		this.senha = userInserirDTO.getSenha();
 
-//	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable (name = "user_relatioship",
-//	joinColumns = @JoinColumn(name = "id_user"),
-//	inverseJoinColumns = @JoinColumn (name = "id_relationship"))
-//	private List<Relationship> relationship;
+	}
+	
+	public User() {
+    }
 
+    public User(Long id, String nome, String sobrenome,
+                String email, String senha, LocalDate dataNascimento) {
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.email = email;
+        this.senha = senha;
+        this.dataNascimento = dataNascimento;
+    }
+    
 	public Long getId() {
 		return id;
 	}

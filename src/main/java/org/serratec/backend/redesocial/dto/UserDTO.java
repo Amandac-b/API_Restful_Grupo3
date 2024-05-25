@@ -4,11 +4,15 @@ import java.time.LocalDate;
 
 import org.serratec.backend.redesocial.model.User;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class UserDTO {
 
 		private Long id;
 		private String nome;
 		private String sobrenome;
+		
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 		private LocalDate dataNascimento;
 		
 		public UserDTO() {

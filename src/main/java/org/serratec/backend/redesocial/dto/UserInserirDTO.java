@@ -1,5 +1,9 @@
 package org.serratec.backend.redesocial.dto;
 
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class UserInserirDTO {
 
 	private String nome;
@@ -11,6 +15,9 @@ public class UserInserirDTO {
 	private String senha;
 
 	private String confirmaSenha;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	private LocalDate dataNascimento;
 
 	public String getNome() {
 		return nome;
@@ -51,8 +58,13 @@ public class UserInserirDTO {
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
 	}
-	
-	
-	
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
 	
 }

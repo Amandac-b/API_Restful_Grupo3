@@ -9,9 +9,11 @@ import org.serratec.backend.redesocial.model.User;
 import org.serratec.backend.redesocial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,16 +45,16 @@ public class UserController {
 		return ResponseEntity.created(uri).body(userDTO);
 	}
 
-	/*
-	 * @PutMapping("/{id}") public ResponseEntity<User> atualizar(@PathVariable Long
-	 * id, @Valid @RequestBody User user) { if (!userRepository.existsById(id)) {
-	 * return ResponseEntity.notFound().build(); } user.setId(id); user =
-	 * userRepository.save(user); return ResponseEntity.ok(user); }
-	 * 
-	 * @DeleteMapping("/{id}") public ResponseEntity<Void> remover(@PathVariable
-	 * Long id) { if (!userRepository.existsById(id)) { return
-	 * ResponseEntity.notFound().build(); } userRepository.deleteById(id); return
-	 * ResponseEntity.noContent().build(); }
-	 */
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleter (@PathVariable Long id){
+		 userService.delete(id);
+		 return ResponseEntity.noContent().build();
+	}
+	
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<UserDTO> alterar(@PathVariable Long id, @RequestBody UserInserirDTO novaInfoUser) {
+		return ResponseEntity.ok(userService.save(id, novaInfoUser));
+	}
 
 }
