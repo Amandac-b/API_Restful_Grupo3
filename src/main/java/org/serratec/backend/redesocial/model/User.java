@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.serratec.backend.redesocial.dto.UserInserirDTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -32,6 +33,8 @@ public class User {
 	private String sobrenome;
 	private String email;
 	private String senha;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate dataNascimento;
 	
 	@JsonIgnore
@@ -51,7 +54,20 @@ public class User {
 		this.senha = userInserirDTO.getSenha();
 
 	}
+	
+	public User() {
+    }
 
+    public User(Long id, String nome, String sobrenome,
+                String email, String senha, LocalDate dataNascimento) {
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.email = email;
+        this.senha = senha;
+        this.dataNascimento = dataNascimento;
+    }
+    
 	public Long getId() {
 		return id;
 	}
