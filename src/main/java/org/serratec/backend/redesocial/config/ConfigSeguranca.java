@@ -1,6 +1,7 @@
 package org.serratec.backend.redesocial.config;
 
 public class ConfigSeguranca {
+	/*
 	private int minTamanhoSenha;
 	private int maxTentativasLogin;
 	private boolean autenticacaoDoisFatores;
@@ -61,5 +62,5 @@ public class ConfigSeguranca {
 		return "ConfigSeguranca{" + "minTamanhoSenha=" + minTamanhoSenha + ", maxTentativasLogin=" + maxTentativasLogin
 				+ ", autenticacaoDoisFatores=" + autenticacaoDoisFatores + ", controleDeConteudo=" + controleDeConteudo
 				+ ", notificacaoDeAtividadeSuspeita=" + notificacaoDeAtividadeSuspeita + '}';
-	}
+	}*/
 }

@@ -1,13 +1,19 @@
 package org.serratec.backend.redesocial.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,16 +26,17 @@ public class User {
 	@Column(name = "id_user")
 	private Long id;
 
-	@ApiModelProperty (notes = "Nome do Usuário")
 	private String nome;
-	@ApiModelProperty (notes = "Sobrenome do Usuário")
-	private String sobrenome; 
-	@ApiModelProperty (notes = "Email do Usuário")
+	private String sobrenome;
 	private String email;
-	@ApiModelProperty (notes = "Senha do Usuário")
 	private String senha;
-	@ApiModelProperty (notes = "Data de Nascimento do Usuário")
 	private LocalDate dataNascimento;
+	@JsonIgnore
+	@OneToMany(mappedBy = "relationshipPK.follower", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Relationship> seguidores = new ArrayList<>();
+	@JsonIgnore
+	@OneToMany(mappedBy = "relationshipPK.followed", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Relationship> seguidos = new ArrayList<>();
 
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable (name = "user_relatioship",
