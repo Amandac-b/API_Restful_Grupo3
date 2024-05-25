@@ -2,6 +2,8 @@ package org.serratec.backend.redesocial.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,12 +13,13 @@ import jakarta.persistence.Id;
 public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
-    private Long id;
-    private String conteudo;
-    private LocalDate dataCriacao;
-	
-    public Post() {
+
+	private Long id;
+	private String conteudo;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	private LocalDate dataCriacao;
+
+	public Post() {
 	}
 
 	public Post(Long id, String conteudo, LocalDate dataCriacao) {
@@ -49,9 +52,5 @@ public class Post {
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-	
 
-	
 }
-
-	

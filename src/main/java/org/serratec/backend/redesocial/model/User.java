@@ -33,18 +33,17 @@ public class User {
 	private String sobrenome;
 	private String email;
 	private String senha;
-	
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate dataNascimento;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "relationshipPK.follower", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Relationship> seguidores = new ArrayList<>();
 	@JsonIgnore
 	@OneToMany(mappedBy = "relationshipPK.followed", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Relationship> seguidos = new ArrayList<>();
-	
-	
+
 	public User(UserInserirDTO userInserirDTO) {
 		super();
 		this.nome = userInserirDTO.getNome();
@@ -54,20 +53,19 @@ public class User {
 		this.senha = userInserirDTO.getSenha();
 
 	}
-	
-	public User() {
-    }
 
-    public User(Long id, String nome, String sobrenome,
-                String email, String senha, LocalDate dataNascimento) {
-        this.id = id;
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.email = email;
-        this.senha = senha;
-        this.dataNascimento = dataNascimento;
-    }
-    
+	public User() {
+	}
+
+	public User(Long id, String nome, String sobrenome, String email, String senha, LocalDate dataNascimento) {
+		this.id = id;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.email = email;
+		this.senha = senha;
+		this.dataNascimento = dataNascimento;
+	}
+
 	public Long getId() {
 		return id;
 	}

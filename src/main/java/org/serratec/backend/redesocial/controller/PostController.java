@@ -1,5 +1,6 @@
 package org.serratec.backend.redesocial.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.serratec.backend.redesocial.dto.PostDTO;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
 
@@ -39,7 +41,9 @@ public class PostController {
     @PostMapping
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
         PostDTO createdPost = postService.save(postDTO);
-        return ResponseEntity.ok(createdPost);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(postDTO.getId())
+				.toUri();
+        return ResponseEntity.created(uri).body(postDTO);
     }
 
     @DeleteMapping("/{id}")

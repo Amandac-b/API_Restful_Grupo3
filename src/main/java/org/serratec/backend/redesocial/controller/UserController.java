@@ -46,12 +46,11 @@ public class UserController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleter (@PathVariable Long id){
-		 userService.delete(id);
-		 return ResponseEntity.noContent().build();
+	public ResponseEntity<Void> deleter(@PathVariable Long id) {
+		userService.delete(id);
+		return ResponseEntity.noContent().build();
 	}
-	
-	
+
 	@PutMapping("/{id}")
 	public ResponseEntity<UserDTO> alterar(@PathVariable Long id, @RequestBody UserInserirDTO novaInfoUser) {
 		return ResponseEntity.ok(userService.save(id, novaInfoUser));

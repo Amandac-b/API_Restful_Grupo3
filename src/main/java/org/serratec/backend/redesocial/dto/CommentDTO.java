@@ -8,6 +8,17 @@ public class CommentDTO {
 	private String texto;
 	private LocalDate dataCriacao;
 
+	public CommentDTO() {
+		super();
+	}
+
+	public CommentDTO(Long id, String texto, LocalDate dataCriacao) {
+		super();
+		this.id = id;
+		this.texto = texto;
+		this.dataCriacao = dataCriacao;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -30,17 +41,6 @@ public class CommentDTO {
 
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
-	}
-
-	public CommentDTO(Long id, String texto, LocalDate dataCriacao) {
-		super();
-		this.id = id;
-		this.texto = texto;
-		this.dataCriacao = dataCriacao;
-	}
-
-	public CommentDTO() {
-
 	}
 
 }

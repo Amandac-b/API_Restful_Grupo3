@@ -60,23 +60,23 @@ public class UserService {
 	// deletar
 	public void delete(Long id) {
 		Optional<User> userOpt = userRepository.findById(id);
-		
+
 		if (userOpt.isEmpty()) {
-			throw new NotFoundException ("Nenhum item foi encontrado correspondente ao id fornecido");
+			throw new NotFoundException("Nenhum item foi encontrado correspondente ao id fornecido");
 		}
 		userRepository.deleteById(id);
 	}
 
 	// atualizar
-    public UserDTO save(Long Id, UserInserirDTO novoUserDTO) {
-        Optional<User> userOpt = userRepository.findById(Id);
+	public UserDTO save(Long Id, UserInserirDTO novoUserDTO) {
+		Optional<User> userOpt = userRepository.findById(Id);
 
-        if (userOpt.isPresent ()) {
-            User novoUser = new User(novoUserDTO);
-            novoUser.setId(Id);
-            return new UserDTO(userRepository.save(novoUser));
-        }
+		if (userOpt.isPresent()) {
+			User novoUser = new User(novoUserDTO);
+			novoUser.setId(Id);
+			return new UserDTO(userRepository.save(novoUser));
+		}
 
-        throw new NotFoundException();
-    }
+		throw new NotFoundException();
+	}
 }

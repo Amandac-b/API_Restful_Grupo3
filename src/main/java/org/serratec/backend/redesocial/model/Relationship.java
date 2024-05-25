@@ -1,11 +1,11 @@
 package org.serratec.backend.redesocial.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
 public class Relationship {
@@ -13,10 +13,10 @@ public class Relationship {
 	@EmbeddedId
 	RelationshipPK relationshipPK;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdAt;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	private LocalDate createdAt;
 
-	public Relationship(RelationshipPK relationshipPK, Date createdAt) {
+	public Relationship(RelationshipPK relationshipPK, LocalDate createdAt) {
 		super();
 		this.relationshipPK = relationshipPK;
 		this.createdAt = createdAt;
@@ -30,11 +30,11 @@ public class Relationship {
 		this.relationshipPK = relationshipPK;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDate getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
 	}
 
