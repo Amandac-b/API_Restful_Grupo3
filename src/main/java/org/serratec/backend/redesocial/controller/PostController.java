@@ -21,10 +21,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/posts")
 public class PostController {
-    @Autowired
-    private PostService postService;
+    
+	@Autowired
+    private final PostService postService;
+    
+    private PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @GetMapping
     public ResponseEntity<List<PostDTO>> getAllPosts() {
@@ -39,27 +44,30 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
-        PostDTO createdPost = postService.save(postDTO);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(postDTO.getId())
+    public ResponseEntity<PostDTO> createPost (@Valid @RequestBody Post post) {
+        PostDTO postDTO  = postService.createPost(post);
+        
+        URI uri = ServletUriComponentsBuilder
+        		.fromCurrentRequest()
+        		.path("/{id}")
+        		.buildAndExpand(postDTO.getId())
 				.toUri();
         return ResponseEntity.created(uri).body(postDTO);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-        postService.delete(id);
+        postService.findAndDelete(id);
+        
         return ResponseEntity.noContent().build();
     }
     
     @PutMapping("/{id}")
-	public ResponseEntity<Post> alterar(@PathVariable Long id, @Valid @RequestBody Post post) {
-		if (!postService.existsById(id)) {
-			return ResponseEntity.notFound().build();
-		}
-		post.setId(id);
-		Post updatedPost = postService.save(post);
-		return ResponseEntity.ok(updatedPost);
+	public ResponseEntity<PostDTO> alterar(@PathVariable Long id, @Valid @RequestBody Post postAtualizado) {
+		PostDTO postDTO = postService.save(id, postAtualizado);
+		
+		return ResponseEntity.ok(postDTO);
+		
 	}
 }
 
