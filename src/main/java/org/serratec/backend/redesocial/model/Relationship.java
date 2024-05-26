@@ -22,6 +22,12 @@ public class Relationship {
 		this.createdAt = createdAt;
 	}
 
+	
+	public Relationship() {
+		super();
+	}
+
+
 	public RelationshipPK getRelationshipPK() {
 		return relationshipPK;
 	}
