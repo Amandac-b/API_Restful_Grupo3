@@ -1,10 +1,14 @@
 package org.serratec.backend.redesocial.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.serratec.backend.redesocial.dto.UserInserirDTO;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +27,9 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "usuario")
 
-public class User {
+public class User implements UserDetails, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,15 +47,15 @@ public class User {
 	@JsonIgnore
 	@OneToMany(mappedBy = "relationshipPK.follower", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Relationship> seguidores = new ArrayList<>();
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "relationshipPK.followed", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Relationship> seguidos = new ArrayList<>();
-	
+
 	@JsonManagedReference
 	@OneToMany (mappedBy = "publicador", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Post> posts;
-	
+
 	public User(UserInserirDTO userInserirDTO) {
 		super();
 		this.nome = userInserirDTO.getNome();
@@ -118,6 +124,48 @@ public class User {
 
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return senha;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
