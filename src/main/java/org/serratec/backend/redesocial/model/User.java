@@ -8,6 +8,7 @@ import org.serratec.backend.redesocial.dto.UserInserirDTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -40,10 +41,15 @@ public class User {
 	@JsonIgnore
 	@OneToMany(mappedBy = "relationshipPK.follower", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Relationship> seguidores = new ArrayList<>();
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "relationshipPK.followed", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Relationship> seguidos = new ArrayList<>();
-
+	
+	@JsonManagedReference
+	@OneToMany (mappedBy = "publicador", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Post> posts;
+	
 	public User(UserInserirDTO userInserirDTO) {
 		super();
 		this.nome = userInserirDTO.getNome();

@@ -2,12 +2,15 @@ package org.serratec.backend.redesocial.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Comment {
@@ -17,7 +20,11 @@ public class Comment {
 	private String texto;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate dataCriacao;
-
+	@ManyToOne
+	@JsonBackReference 
+	@JoinColumn (name = "post_id", nullable = false)
+	private Post post;
+	
 	public Long getId() {
 		return id;
 	}
