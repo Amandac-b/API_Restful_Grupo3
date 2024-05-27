@@ -27,6 +27,7 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
 	@Autowired
 	private RelationshipRepository relationshipRepository;
 
@@ -90,24 +91,24 @@ public class UserService {
 
 	// MÉTODO DE RELACIONAMENTO
 
-	
+
 	public RelationshipDTO seguir(Long idSeguido, Long idSeguidor) {
-		
+
 		Optional<User> seguidoOpt = userRepository.findById(idSeguido);
 		Optional<User> seguidorOpt = userRepository.findById(idSeguidor);
 
 		if (seguidoOpt.isPresent() && seguidorOpt.isPresent()) {
 			RelationshipPK chave = new RelationshipPK (seguidoOpt.get(), seguidorOpt.get());
 			Relationship novoSeguidor = new Relationship(chave, LocalDate.now());
-			
+
 			return new RelationshipDTO (relationshipRepository.save(novoSeguidor));
-		
+
 		}
 		throw new NotFoundException();
-		
+
 	}
-	
-	
+
+
 	public List<RelationshipDTO> findAllFollowingById(Long id) throws NotFoundException, NoContentException {
 
 		Optional<User> userOpt = userRepository.findById(id);
@@ -155,99 +156,18 @@ public class UserService {
 	}
 
 	public void findAndDelete(Long idSeguidor, Long idSeguido) {
+
 		Optional<User> userSeguidorOpt = userRepository.findById(idSeguidor);
 		Optional<User> userSeguidoOpt = userRepository.findById(idSeguido);
 
 		if (userSeguidorOpt.isPresent() && userSeguidoOpt.isPresent()) {
+			Optional<Relationship> followOpt = relationshipRepository.findRelationshipById(idSeguidor, idSeguido);
 
-			if (relationshipRepository.findRelationshipById(idSeguidor, idSeguido).isEmpty()) {
+			if (followOpt.isEmpty()) {
 				throw new NotFoundException("Não existe uma relação entre os Usuários.");
 			}
+
 			relationshipRepository.findAndDelete(idSeguidor, idSeguido);
-		} else {
-			throw new RuntimeException("Usuário não encontrado com o ID fornecido.");
-		}
-	}
-
-		throw new NotFoundException();
-	}
-
-	// MÉTODO DE RELACIONAMENTO
-
-	
-	public RelationshipDTO seguir(Long idSeguido, Long idSeguidor) {
-		
-		Optional<User> seguidoOpt = userRepository.findById(idSeguido);
-		Optional<User> seguidorOpt = userRepository.findById(idSeguidor);
-
-		if (seguidoOpt.isPresent() && seguidorOpt.isPresent()) {
-			RelationshipPK chave = new RelationshipPK (seguidoOpt.get(), seguidorOpt.get());
-			Relationship novoSeguidor = new Relationship(chave, LocalDate.now());
-			
-			return new RelationshipDTO (relationshipRepository.save(novoSeguidor));
-		
-		}
-		throw new NotFoundException();
-		
-	}
-	
-	
-	public List<RelationshipDTO> findAllFollowingById(Long id) throws NotFoundException, NoContentException {
-
-		Optional<User> userOpt = userRepository.findById(id);
-
-		if (userOpt.isPresent()) {
-			List<Relationship> relationships = relationshipRepository.findAllFollowingById(id);
-			List<RelationshipDTO> relationshipsDTO = new ArrayList<>();
-
-			for (Relationship relationship : relationships) {
-				RelationshipDTO relationshipDTO = new RelationshipDTO(relationship);
-				relationshipsDTO.add(relationshipDTO);
-			}
-
-			if (!relationshipsDTO.isEmpty()) {
-				return relationshipsDTO;
-			}
-
-			throw new NoContentException();
-		}
-
-		throw new NotFoundException("Este Usuário não tem seguimentos.");
-	}
-
-	public List<RelationshipDTO> findAllFollowersByUserId(Long id) throws NotFoundException, NoContentException {
-
-		Optional<User> userOpt = userRepository.findById(id);
-
-		if (userOpt.isPresent()) {
-			List<Relationship> relationships = relationshipRepository.findAllFollowersByUserId(id);
-			List<RelationshipDTO> relationshipsDTO = new ArrayList<>();
-
-			for (Relationship relationship : relationships) {
-				RelationshipDTO relationshipDTO = new RelationshipDTO(relationship);
-				relationshipsDTO.add(relationshipDTO);
-			}
-
-			if (!relationshipsDTO.isEmpty()) {
-				return relationshipsDTO;
-			}
-
-			throw new NoContentException();
-		}
-
-		throw new NotFoundException("Nenhum seguidor foi encontrado para o Id solicitado.");
-	}
-
-	public void findAndDelete(Long idSeguidor, Long idSeguido) {
-		Optional<User> userSeguidorOpt = userRepository.findById(idSeguidor);
-		Optional<User> userSeguidoOpt = userRepository.findById(idSeguido);
-
-		if (userSeguidorOpt.isPresent() && userSeguidoOpt.isPresent()) {
-
-			if (relationshipRepository.findRelationshipById(idSeguido, idSeguidor).isEmpty()) {
-				throw new NotFoundException("Não existe uma relação entre os Usuários.");
-			}
-			relationshipRepository.findAndDelete(idSeguido, idSeguidor);
 		} else {
 			throw new RuntimeException("Usuário não encontrado com o ID fornecido.");
 		}
