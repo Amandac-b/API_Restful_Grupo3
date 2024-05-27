@@ -56,5 +56,28 @@ public class UserController {
 	public ResponseEntity<UserDTO> alterar(@PathVariable Long id, @RequestBody UserInserirDTO novaInfoUser) {
 		return ResponseEntity.ok(userService.save(id, novaInfoUser));
 	}
+	
+	//MÉTODOS DE RELACIONAMENTO
+	
+	@PostMapping("/{idSeguidor}/relationship/follow/{idSeguido}")
+	public ResponseEntity<RelationshipDTO> inserir(@PathVariable Long idSeguidor, @PathVariable Long idSeguido){
+		RelationshipDTO relationshipDTO = userService.seguir(idSeguidor, idSeguido);
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentRequest().path("/{idSeguidor}/relationship/follow/{idSeguido}")
+				.buildAndExpand(idSeguidor, idSeguido)
+				.toUri();
+		return ResponseEntity.created(uri).body(relationshipDTO);
+	}
+	
+	@DeleteMapping("/{idSeguidor}/relationship/unfollow/{idSeguido}")
+	public ResponseEntity<Void> findAndDelete(@PathVariable Long idSeguidor, @PathVariable Long idSeguido) {
+			userService.findAndDelete(idSeguidor, idSeguido);
+			return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/{id}/relationship/followers")
+	public ResponseEntity<List<RelationshipDTO>> listarTodosSeguidores(@PathVariable Long id){
+		return ResponseEntity.ok(userService.findAllFollowersByUserId(id));
+	}
 
 }

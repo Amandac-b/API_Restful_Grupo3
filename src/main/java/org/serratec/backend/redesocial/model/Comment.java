@@ -3,6 +3,7 @@ package org.serratec.backend.redesocial.model;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,6 +15,21 @@ public class Comment {
 	private Long id;
 	private String texto;
 	private LocalDate dataCriacao;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonBackReference 
+	@JoinColumn (name = "post_id", nullable = false)
+	private Post post;
+	
+	
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -11,10 +11,20 @@ import jakarta.persistence.Id;
 public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
+	private Long id;
+	private String conteudo;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	private LocalDate dataCriacao;
+
+	@OneToMany (mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+	@JsonManagedReference 
+	private List<Comment> comentarios;
 	
-    private Long id;
-    private String conteudo;
-    private LocalDate dataCriacao;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonBackReference 
+	@JoinColumn (name = "user_id")
+	private User publicador;
 	
     public Post() {
 	}
