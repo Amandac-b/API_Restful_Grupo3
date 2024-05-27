@@ -2,19 +2,24 @@ package org.serratec.backend.redesocial.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.serratec.backend.redesocial.dto.CommentDTO;
+import org.serratec.backend.redesocial.exception.NotFoundException;
 import org.serratec.backend.redesocial.model.Comment;
 import org.serratec.backend.redesocial.repository.CommentRepository;
+import org.serratec.backend.redesocial.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CommentService {
-	@Autowired
-	private CommentRepository commentRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private PostRepository postRepository;
 
 	public List<CommentDTO> findAll() {
 		List<Comment> comments = commentRepository.findAll();
@@ -23,36 +28,38 @@ public class CommentService {
 				.collect(Collectors.toList());
 	}
 
-	public CommentDTO findById(Long id) {
-		Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException("Comment not found"));
-		return new CommentDTO(comment.getId(), comment.getTexto(), comment.getDataCriacao());
-	}
+    public CommentDTO findById(Long id) {
+        Comment comment = commentRepository
+                .findById(id).orElseThrow(() ->  new NotFoundException("Comentário não encontrado!"));
+        return new CommentDTO(comment.getId(), comment.getTexto(), comment.getDataCriacao());
+    }
 
-	public CommentDTO save(Long id, CommentDTO commentDTO) {
-		try {
-			Comment comment = new Comment(null, commentDTO.getTexto(), LocalDate.now());
-			comment = commentRepository.save(comment);
-			return new CommentDTO(comment.getId(), comment.getTexto(), comment.getDataCriacao());
-		} catch (Exception e) {
-			throw new RuntimeException("Error in Creating Comment");
-		}
-	}
+    public CommentDTO create(Comment comment) {
 
-	public CommentDTO inserir(CommentDTO commentDTO) {
-		try {
-			Optional<Comment> user = commentRepository.findById(commentDTO.getId());
-			if (user.isPresent() == false) {
-				throw new RuntimeException("Comment not found");
-			}
-			Comment comment = new Comment(commentDTO.getId(), commentDTO.getTexto(), LocalDate.now());
-			comment = commentRepository.save(comment);
-			return new CommentDTO(comment.getId(), comment.getTexto(), comment.getDataCriacao());
-		} catch (Exception e) {
-			throw new RuntimeException("Error in Update Comment");
-		}
-	}
+        if(comment.getPost().getId() != null) {
+            postRepository.findById(comment.getPost().getId())
+                    .orElseThrow(() -> new NotFoundException("Não existe post para este comentário"));
+        }
 
-	public void delete(Long id) {
-		commentRepository.deleteById(id);
-	}
+        comment.setDataCriacao(LocalDate.now());
+
+        return new CommentDTO(commentRepository.save(comment));
+    }
+
+    public CommentDTO update(Long id, Comment comment) {
+        Comment oldComment = commentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Não existe comentário com esse id."));
+
+        comment.setId(id);
+        comment.setDataCriacao(oldComment.getDataCriacao());
+        comment.setPost(oldComment.getPost());
+        return new CommentDTO(commentRepository.save(comment));
+    }
+
+    public void deleteItem(Long id) {
+        commentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Não existe comentário com esse id."));
+
+        commentRepository.deleteById(id);
+    }
 }

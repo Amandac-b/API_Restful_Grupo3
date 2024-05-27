@@ -39,15 +39,15 @@ public class User {
 	private LocalDate dataNascimento;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "relationshipPK.follower", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "relationshipPK.follower", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Relationship> seguidores = new ArrayList<>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "relationshipPK.followed", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "relationshipPK.followed", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Relationship> seguidos = new ArrayList<>();
 	
 	@JsonManagedReference
-	@OneToMany (mappedBy = "publicador", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany (mappedBy = "publicador", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Post> posts;
 	
 	public User(UserInserirDTO userInserirDTO) {

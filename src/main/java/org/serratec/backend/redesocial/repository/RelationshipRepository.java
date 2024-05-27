@@ -21,10 +21,10 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Rela
     List<Relationship> findAllFollowingById(Long id);
     
     @Query(value = "select * from relationship where id_seguido = :idSeguido and id_seguidor = :idSeguidor", nativeQuery=true)
-    Optional<Relationship> findRelationshipById(Long idSeguido, Long idSeguidor);
+    Optional<Relationship> findRelationshipById(Long idSeguidor, Long idSeguido);
     
     @Modifying
-    @Query(value = "delete from relationship where id_seguido = :idSeguido and id_seguidor = :idSeguidor", nativeQuery=true)
-    void findAndDelete (Long idSeguido, Long idSeguidor);
+    @Query(value = "delete from relationship where id_seguidor= :idSeguidor and id_seguido = :idSeguido", nativeQuery=true)
+    void findAndDelete (Long idSeguidor, Long idSeguido);
     
 }

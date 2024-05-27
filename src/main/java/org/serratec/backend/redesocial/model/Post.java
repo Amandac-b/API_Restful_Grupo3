@@ -27,16 +27,14 @@ public class Post {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate dataCriacao;
 
-	@OneToMany (mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER )
+	@OneToMany (mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
 	@JsonManagedReference 
 	private List<Comment> comentarios;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonBackReference 
 	@JoinColumn (name = "user_id")
 	private User publicador;
-	
-		
 	
 	public Post() {
 	}

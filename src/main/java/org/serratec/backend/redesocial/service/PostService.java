@@ -28,6 +28,7 @@ public class PostService {
 	}
 
 	public PostDTO createPost(Post post) {
+		post.setDataCriacao(LocalDate.now());
 		postRepository.save(post);
 		return new PostDTO(post);
 	}
@@ -51,4 +52,22 @@ public class PostService {
 		throw new NotFoundException("O post não foi encontrado.");
 	}
 
+    public void delete(Long id) {
+        postRepository.deleteById(id);
+    }
+    
+    public Post save(@Valid Post post) {
+	    return postRepository.save(post);
+	   }
+	public boolean existsById(Long id) {
+	return postRepository.existsById(id);
 }
+    
+}
+
+    
+
+
+
+
+

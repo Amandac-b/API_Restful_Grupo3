@@ -2,6 +2,8 @@ package org.serratec.backend.redesocial.dto;
 
 import java.time.LocalDate;
 
+import org.serratec.backend.redesocial.model.Comment;
+
 public class CommentDTO {
 
 	private Long id;
@@ -17,6 +19,13 @@ public class CommentDTO {
 		this.id = id;
 		this.texto = texto;
 		this.dataCriacao = dataCriacao;
+	}
+	
+	public CommentDTO(Comment comment) {
+		super();
+		this.id = comment.getId();
+		this.texto = comment.getTexto();
+		this.dataCriacao = comment.getDataCriacao();
 	}
 
 	public Long getId() {

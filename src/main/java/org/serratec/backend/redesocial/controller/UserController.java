@@ -60,8 +60,8 @@ public class UserController {
 	//MÉTODOS DE RELACIONAMENTO
 	
 	@PostMapping("/{idSeguidor}/relationship/follow/{idSeguido}")
-	public ResponseEntity<RelationshipDTO> inserir(@PathVariable Long idSeguido, @PathVariable Long idSeguidor){
-		RelationshipDTO relationshipDTO = userService.seguir(idSeguido, idSeguidor);
+	public ResponseEntity<RelationshipDTO> inserir(@PathVariable Long idSeguidor, @PathVariable Long idSeguido){
+		RelationshipDTO relationshipDTO = userService.seguir(idSeguidor, idSeguido);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest().path("/{idSeguidor}/relationship/follow/{idSeguido}")
 				.buildAndExpand(idSeguidor, idSeguido)
@@ -71,12 +71,8 @@ public class UserController {
 	
 	@DeleteMapping("/{idSeguidor}/relationship/unfollow/{idSeguido}")
 	public ResponseEntity<Void> findAndDelete(@PathVariable Long idSeguidor, @PathVariable Long idSeguido) {
-		try {
 			userService.findAndDelete(idSeguidor, idSeguido);
 			return ResponseEntity.noContent().build();
-		} catch (RuntimeException e) {
-			return ResponseEntity.notFound().build();
-		}
 	}
 	
 	@GetMapping("/{id}/relationship/followers")
@@ -84,10 +80,4 @@ public class UserController {
 		return ResponseEntity.ok(userService.findAllFollowersByUserId(id));
 	}
 
-	@GetMapping("/{id}/relationship/followed")
-	public ResponseEntity<List<RelationshipDTO>> listarTodosSeguindo(@PathVariable Long id){
-		return ResponseEntity.ok(userService.findAllFollowingById(id));
-	}
-	
-	
 }
