@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import jakarta.transaction.Transactional;
+
 @Repository
 public interface RelationshipRepository extends JpaRepository<Relationship, RelationshipPK> {
 
@@ -23,6 +25,7 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Rela
     @Query(value = "select * from relationship where id_seguido = :idSeguido and id_seguidor = :idSeguidor", nativeQuery=true)
     Optional<Relationship> findRelationshipById(Long idSeguidor, Long idSeguido);
     
+    @Transactional
     @Modifying
     @Query(value = "delete from relationship where id_seguidor= :idSeguidor and id_seguido = :idSeguido", nativeQuery=true)
     void findAndDelete (Long idSeguidor, Long idSeguido);
