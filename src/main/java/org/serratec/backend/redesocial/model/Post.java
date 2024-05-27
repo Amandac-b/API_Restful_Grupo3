@@ -31,7 +31,7 @@ public class Post {
 	@JsonManagedReference 
 	private List<Comment> comentarios;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference 
 	@JoinColumn (name = "user_id")
 	private User publicador;
