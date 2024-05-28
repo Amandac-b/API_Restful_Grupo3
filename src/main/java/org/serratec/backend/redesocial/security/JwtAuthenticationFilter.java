@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.serratec.backend.redesocial.model.User;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +37,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		try {
 			User login = new ObjectMapper().readValue(request.getInputStream(), User.class);
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-					login.getEmail(), login.getSenha(), new ArrayList<>());
+					login.getEmail(), login.getPassword(), new ArrayList<>());
 			Authentication auth = authenticationManager.authenticate(authToken);
 			return auth;
 		} catch (IOException e) {
@@ -51,5 +53,4 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 		response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization");
 	}
-
 }

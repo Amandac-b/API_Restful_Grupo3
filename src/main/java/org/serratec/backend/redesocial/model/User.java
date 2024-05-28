@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.serratec.backend.redesocial.dto.UserInserirDTO;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -40,6 +42,7 @@ public class User implements UserDetails, Serializable {
 	private String sobrenome;
 	private String email;
 	private String senha;
+	private List<String> rules;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate dataNascimento;
@@ -54,7 +57,7 @@ public class User implements UserDetails, Serializable {
 
 	@JsonManagedReference
 	@OneToMany (mappedBy = "publicador", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Post> posts;
+	private Collection<Post> posts;
 
 	public User(UserInserirDTO userInserirDTO) {
 		super();
@@ -63,6 +66,7 @@ public class User implements UserDetails, Serializable {
 		this.email = userInserirDTO.getEmail();
 		this.dataNascimento = userInserirDTO.getDataNascimento();
 		this.senha = userInserirDTO.getSenha();
+		this.rules = List.of("ROLE_POST", "ROLE_USER", "ROLE_COMMENT");
 
 	}
 
@@ -128,44 +132,40 @@ public class User implements UserDetails, Serializable {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		for(String rule : rules) {
+			authorities.add(new SimpleGrantedAuthority(rule));
+		}
+		return authorities;
 	}
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return senha;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return email;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
-
 }

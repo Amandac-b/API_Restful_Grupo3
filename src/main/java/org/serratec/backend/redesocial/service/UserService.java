@@ -18,6 +18,7 @@ import org.serratec.backend.redesocial.model.User;
 import org.serratec.backend.redesocial.repository.RelationshipRepository;
 import org.serratec.backend.redesocial.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -30,6 +31,9 @@ public class UserService {
 
 	@Autowired
 	private RelationshipRepository relationshipRepository;
+
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	// buscar todos
 	public List<UserDTO> findAll() {
@@ -62,7 +66,7 @@ public class UserService {
 		if (userBd != null) {
 			throw new EmailException("Email ja existente");
 		}
-
+		userInserirDTO.setSenha(encoder.encode(userInserirDTO.getSenha()));
 		return new UserDTO(userRepository.save(new User(userInserirDTO)));
 	}
 

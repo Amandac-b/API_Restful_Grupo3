@@ -25,23 +25,25 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class ConfigSeguranca {
-	
+
 	@Autowired
 	UserDetailsService userDetailsService;
-	
+
 	@Autowired
 	JwtUtil jwtUtil;
-	
+
 	@Bean
 	 SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
 		.cors((cors) -> cors.configurationSource(corsConfigurationSource()))
 		.httpBasic(Customizer.withDefaults()).authorizeHttpRequests(requests -> {
-			requests.requestMatchers(HttpMethod.GET, "/login").permitAll();
-			requests.requestMatchers(HttpMethod.GET, "/enderecos/**").permitAll();
-			requests.requestMatchers(HttpMethod.GET, "/usuarios").hasAnyAuthority("ADMIN", "USER");
-			requests.requestMatchers(HttpMethod.POST, "/usuarios").hasAuthority("ADMIN")
-			.anyRequest().authenticated();
+			requests.requestMatchers(HttpMethod.POST, "/login").permitAll(); 
+			requests.requestMatchers(HttpMethod.POST, "/users").permitAll();
+			requests.requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();
+			requests.requestMatchers(HttpMethod.POST, "/posts").hasRole("POST");
+			requests.requestMatchers(HttpMethod.POST, "/users").hasRole("USER");
+			requests.requestMatchers(HttpMethod.POST, "/comments").hasRole("COMMENT")
+				.anyRequest().authenticated();
 		}).sessionManagement(session -> {
 			session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		});
@@ -56,24 +58,25 @@ public class ConfigSeguranca {
 		
 		return http.build();
 	}
-	
+
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
 		corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
-		
+
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", corsConfiguration.applyPermitDefaultValues());
-		
+
 		return source;
 	}
-	
+
 	@Bean
-	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
-	
+
 	@Bean
 	BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();

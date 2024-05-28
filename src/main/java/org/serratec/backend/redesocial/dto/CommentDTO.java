@@ -51,5 +51,4 @@ public class CommentDTO {
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-
 }
