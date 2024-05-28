@@ -4,10 +4,13 @@ import java.time.LocalDate;
 
 import org.serratec.backend.redesocial.model.Comment;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class CommentDTO {
 
 	private Long id;
 	private String texto;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate dataCriacao;
 
 	public CommentDTO() {

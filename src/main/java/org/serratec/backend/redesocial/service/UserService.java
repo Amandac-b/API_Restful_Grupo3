@@ -48,12 +48,13 @@ public class UserService {
 	}
 
 	// buscar um
-	public User findById(Long id) throws NotFoundException {
+	public UserDTO findById(Long id) throws NotFoundException {
 		Optional<User> userOpt = userRepository.findById(id);
 		if (userOpt.isEmpty()) {
 			throw new NotFoundException();
 		}
-		return userOpt.get();
+		UserDTO userDTO = new UserDTO(userOpt.get()); 
+		return userDTO; 
 	}
 
 	// inserir
