@@ -15,11 +15,18 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+//A classe JwtAuthorizationFilter estende BasicAuthenticationFilter para autorizar solicitações com base em um token JWT
+
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
+	//jwtUtil --> faz a manipulação de tokens JWT
+	//userDetailsService --> carrega detalhes do Usuario
+	
 	private JwtUtil jwtUtil;
 	private UserDetailsService userDetailsService;
 
+	//Construtor que inicializa os filtros
+	
 	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil,
 			UserDetailsService userDetailsService) {
 		super(authenticationManager);
@@ -27,6 +34,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		this.userDetailsService = userDetailsService;
 	}
 
+	/*O método doFilterInternal verifica o cabeçalho de autorização da solicitação HTTP.
+	  Se o cabeçalho existir e começar com "Bearer ", ele tenta obter a autenticação do token JWT
+	  Se a autenticação for bem-sucedida, ela é configurada no contexto de segurança. A cadeia de filtros continua.*/
+	
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -40,6 +52,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		chain.doFilter(request, response);
 	}
 
+	//getAuthentication --> valida o token JWT
+	/*Se o token for válido, ele obtém o nome de usuário do token e carrega os detalhes do Usuario,
+	  retornando UsernamePasswordAuthenticationToken*/
+	
 	private UsernamePasswordAuthenticationToken getAuthentication(String token) {
 		if (jwtUtil.isValidToken(token)) {
 			String username = jwtUtil.getUserName(token);
