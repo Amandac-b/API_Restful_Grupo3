@@ -39,7 +39,7 @@ public class ConfigSeguranca {
 		.httpBasic(Customizer.withDefaults()).authorizeHttpRequests(requests -> {
 			requests.requestMatchers(HttpMethod.POST, "/login").permitAll(); 
 			requests.requestMatchers(HttpMethod.POST, "/users").permitAll();
-			requests.requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();
+			requests.requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll();
 			requests.requestMatchers(HttpMethod.POST, "/posts").hasRole("POST");
 			requests.requestMatchers(HttpMethod.POST, "/users").hasRole("USER");
 			requests.requestMatchers(HttpMethod.POST, "/comments").hasRole("COMMENT")
